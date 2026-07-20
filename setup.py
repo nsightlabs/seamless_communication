@@ -30,8 +30,8 @@ setup(
         "sonar-space==0.2.*",
         "soundfile",
         "scipy",
-        "torchaudio==2.10.0",
-        "torch==2.10.0",
+        "torchaudio==2.1.1",
+        "torch==2.1.1",
         "tqdm",
     ],
     entry_points={
