@@ -23,6 +23,7 @@ from fairseq2.nn.padding import PaddingMask
 from fairseq2.optim.lr_scheduler import MyleLR
 from fairseq2.typing import Device
 from torch.optim import AdamW
+import bitsandbytes as bnb
 
 from seamless_communication.cli.m4t.finetune import dataloader, dist_utils
 from seamless_communication.models.unity import (
@@ -268,14 +269,22 @@ class UnitYFinetune:
         self.eval_data_loader = eval_data_loader
         
         self.grad_scaler = torch.cuda.amp.GradScaler()  # type: ignore
-        self.optimizer = AdamW(
+        # self.optimizer = AdamW(
+        #     params=self.model.parameters(),
+        #     lr=self.params.learning_rate,
+        #     betas=(0.9, 0.98),
+        #     eps=1e-08,
+        #     maximize=False,
+        #     weight_decay=0.0,
+        #     fused=(self.params.device.type == "cuda"),
+        # )
+        self.optimizer = bnb.optim.AdamW8bit(
             params=self.model.parameters(),
             lr=self.params.learning_rate,
             betas=(0.9, 0.98),
             eps=1e-08,
             maximize=False,
             weight_decay=0.0,
-            fused=(self.params.device.type == "cuda"),
         )
         self.lr_scheduler = MyleLR(
             optimizer=self.optimizer,
