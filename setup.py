@@ -23,7 +23,6 @@ setup(
     install_requires=[
         "datasets==2.18.0",
         "fairseq2==0.2.*",
-        "fairseq2n==0.2.*",
         "fire",
         "librosa",
         "openai-whisper",
