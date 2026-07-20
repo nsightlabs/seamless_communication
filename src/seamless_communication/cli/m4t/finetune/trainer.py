@@ -283,7 +283,6 @@ class UnitYFinetune:
             lr=self.params.learning_rate,
             betas=(0.9, 0.98),
             eps=1e-08,
-            maximize=False,
             weight_decay=0.0,
         )
         self.lr_scheduler = MyleLR(
