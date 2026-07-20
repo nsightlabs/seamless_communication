@@ -31,6 +31,7 @@ setup(
         "soundfile",
         "scipy",
         "torchaudio",
+        "torch",
         "tqdm",
     ],
     entry_points={
