@@ -136,11 +136,6 @@ def init_parser() -> argparse.ArgumentParser:
         default="cuda",
         help=("Device to fine-tune on. See `torch.device`."),
     )
-    parser.add_argument(
-        "--gradient_checkpointing_enable",
-        action="store_true",
-        help=("Enable gradient checkpointing for memory efficiency"),
-    )
     return parser
 
 
@@ -171,11 +166,7 @@ def main() -> None:
     
     logger.info(f"Finetune Params: {finetune_params}")
     
-    model = load_unity_model(args.model_name, device=torch.device("cpu"), dtype=torch.float32)
-    if args.gradient_checkpointing_enable:
-        model.speech_encoder.gradient_checkpointing_enable()
-        model.text_decoder.gradient_checkpointing_enable()
-    
+    model = load_unity_model(args.model_name, device=torch.device("cpu"), dtype=torch.float32)    
     assert model.target_vocab_info == text_tokenizer.vocab_info
     
     if (
