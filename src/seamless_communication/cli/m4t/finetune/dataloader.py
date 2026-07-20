@@ -117,6 +117,14 @@ class UnitYDataLoader:
         }
         self.dataset = self._load_manifest(dataset_manifest_path)
         self.max_src_tokens_per_batch = max_src_tokens_per_batch
+        
+        
+    def _resample(self, waveform: torch.Tensor, sr: int) -> torch.Tensor:
+        resampler = torchaudio.transforms.Resample(
+            orig_freq=sr,
+            new_freq=self.SAMPLE_RATE
+        )
+        return resampler(waveform)
 
     def get_dataloader(self) -> DataLoader[SeqsBatch]:
         subset = split_dataset_by_node(
@@ -139,9 +147,11 @@ class UnitYDataLoader:
 
     def _get_source_fbank(self, sample: LangPairSample) -> Tensor:
         wav, sample_rate = torchaudio.load(sample.source.audio_local_path)
-        assert (
-            int(sample_rate) == self.SAMPLE_RATE
-        ), f"sample != {self.SAMPLE_RATE}, please resample"
+        if sample_rate != self.SAMPLE_RATE:
+            wav = self._resample(wav, sample_rate)
+        # assert (
+        #     int(sample_rate) == self.SAMPLE_RATE
+        # ), f"sample != {self.SAMPLE_RATE}, please resample"
         assert len(wav.shape) in (1, 2)
         if len(wav.shape) == 1:
             wav = wav.unsqueeze(-1)
