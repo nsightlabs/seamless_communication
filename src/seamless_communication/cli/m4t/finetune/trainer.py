@@ -293,7 +293,7 @@ class UnitYFinetune:
             momentum=0.9,
             maximize=False,
             weight_decay=0.0,
-            fused=(self.params.device.type == "cuda"),            
+            #fused=(self.params.device.type == "cuda"),            
         )
         
         self.lr_scheduler = MyleLR(
