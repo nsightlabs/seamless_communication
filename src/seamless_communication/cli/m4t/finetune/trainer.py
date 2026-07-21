@@ -291,7 +291,6 @@ class UnitYFinetune:
             params=self.model.parameters(),
             lr=self.params.learning_rate,
             momentum=0.9,
-            maximize=False,
             weight_decay=0.0,
             #fused=(self.params.device.type == "cuda"),            
         )
