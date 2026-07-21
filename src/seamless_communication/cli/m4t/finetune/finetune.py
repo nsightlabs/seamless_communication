@@ -180,6 +180,7 @@ def main() -> None:
     
     # Put model on selected device
     model = model.to(finetune_params.device)
+    print(model)
 
     # TODO: delete unused params to reduce GPU memory consumption
     train_dataloader = dataloader.UnitYDataLoader(
