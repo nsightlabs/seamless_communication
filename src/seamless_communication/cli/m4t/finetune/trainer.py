@@ -287,7 +287,7 @@ class UnitYFinetune:
         #     weight_decay=0.0,
         # )
         
-        self.optimizer = torch.optim.SGD(
+        self.optimizer = bnb.optim.SGD(
             params=self.model.parameters(),
             lr=self.params.learning_rate,
             momentum=0.9,
