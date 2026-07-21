@@ -278,13 +278,24 @@ class UnitYFinetune:
         #     weight_decay=0.0,
         #     fused=(self.params.device.type == "cuda"),
         # )
-        self.optimizer = bnb.optim.AdamW8bit(
+        
+        # self.optimizer = bnb.optim.AdamW8bit(
+        #     params=self.model.parameters(),
+        #     lr=self.params.learning_rate,
+        #     betas=(0.9, 0.98),
+        #     eps=1e-08,
+        #     weight_decay=0.0,
+        # )
+        
+        self.optimizer = torch.optim.SGD(
             params=self.model.parameters(),
             lr=self.params.learning_rate,
-            betas=(0.9, 0.98),
-            eps=1e-08,
+            momentum=0.9,
+            maximize=False,
             weight_decay=0.0,
+            fused=(self.params.device.type == "cuda"),            
         )
+        
         self.lr_scheduler = MyleLR(
             optimizer=self.optimizer,
             num_warmup_steps=self.params.warmup_steps,
