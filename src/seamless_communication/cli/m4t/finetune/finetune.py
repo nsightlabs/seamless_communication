@@ -166,7 +166,7 @@ def main() -> None:
     
     logger.info(f"Finetune Params: {finetune_params}")
     
-    model = load_unity_model(args.model_name, device=torch.device("cpu"), dtype=torch.float32)    
+    model = load_unity_model(args.model_name, device=torch.device("cpu"), dtype=torch.float16)    
     assert model.target_vocab_info == text_tokenizer.vocab_info
     
     if (
@@ -180,7 +180,6 @@ def main() -> None:
     
     # Put model on selected device
     model = model.to(finetune_params.device)
-    print(model)
 
     # TODO: delete unused params to reduce GPU memory consumption
     train_dataloader = dataloader.UnitYDataLoader(
